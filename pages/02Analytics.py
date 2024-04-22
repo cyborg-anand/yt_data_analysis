@@ -12,7 +12,7 @@ def execute_query(query, params=None):
         connection = mysql.connector.connect(
             host=os.getenv("HOST"),
             user=os.getenv("USER"),
-            password=os.getenv("PASS"),  # Replace 'YOUR_PASSWORD' with your actual MySQL password
+            password=os.getenv("PASS"), 
             database=os.getenv("DATABASE"),
             auth_plugin='mysql_native_password'
         )
