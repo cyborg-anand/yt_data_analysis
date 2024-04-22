@@ -92,7 +92,7 @@ def main():
     
     channel_id = st.text_input("Enter a YouTube Channel ID:", placeholder="Paste YouTube ID here...")
 
-    if st.button("Fetch Details"):
+    if st.button("Fetch & Save"):
         if not channel_id:
             st.error("Please enter the YouTube Channel ID.")
         else:
