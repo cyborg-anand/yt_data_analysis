@@ -135,11 +135,113 @@ def main():
             # result_5 = execute_query(query_5, tuple(selected_channels))
             # df_5 = pd.DataFrame(result_5, columns=["Video Title", "Number of Likes", "Channel Name"])
             # st.dataframe(df_5)
+            # Query 5: Total number of likes for each video and their corresponding video names
+            # Query 5: Total number of likes for each video and their corresponding video names
+            # Query 5: Total number of likes for each video and their corresponding video names
+            st.header("6. Total number of likes for each video and their corresponding video names")
+            query_6 = """
+                SELECT v.title AS 'Video Title', v.likes AS 'Total Likes'
+                FROM video v
+                JOIN channel c ON v.channel_id = c.channel_id
+                WHERE c.channel_name IN (%s);
+            """
+            query_6 = query_6 % ','.join(['%s'] * len(selected_channels))
+            result_6 = execute_query(query_6, tuple(selected_channels))
+            df_6 = pd.DataFrame(result_6, columns=["Video Title", "Total Likes"])
+            st.dataframe(df_6)
+
+
+            # Query 7: Total number of views for each channel and their corresponding channel names
+            st.header("7. Total number of views for each channel and their corresponding channel names")
+            query_7 = "SELECT channel_name AS 'Channel Name', total_views AS 'Total Views' FROM channel WHERE channel_name IN (%s);"
+            query_7 = query_7 % ','.join(['%s'] * len(selected_channels))
+            result_7 = execute_query(query_7, tuple(selected_channels))
+            df_7 = pd.DataFrame(result_7, columns=["Channel Name", "Total Views"])
+            st.dataframe(df_7)
+
+            # Query 8: Names of selected channels that have published videos in the year 2022
+            st.header("8. Names of selected channels that have published videos in the year 2022")
+            query_8 = """
+                SELECT DISTINCT c.channel_name AS 'Channel Name'
+                FROM video v
+                JOIN channel c ON v.channel_id = c.channel_id
+                WHERE YEAR(v.published_at) = 2022
+                AND c.channel_name IN (%s);
+            """
+            query_8 = query_8 % ','.join(['%s'] * len(selected_channels))
+            result_8 = execute_query(query_8, tuple(selected_channels))
+            df_8 = pd.DataFrame(result_8, columns=["Channel Name"])
+            st.dataframe(df_8)
+
+            # Query 9: Average duration of all videos in each selected channel and their corresponding channel names
+            # Sample durations from the 'video' table for selected channels
+            st.header("Average duration of videos for selected channels:")
+            
+            # Initialize list to store results for each channel
+            channel_results = []
+            
+            # Loop through each selected channel
+            for channel_name in selected_channels:
+                # Query to fetch durations for the current channel
+                query_check_duration = """
+                    SELECT duration
+                    FROM video v
+                    JOIN channel c ON v.channel_id = c.channel_id
+                    WHERE c.channel_name = %s
+                """
+                result_check_duration = execute_query(query_check_duration, (channel_name,))
+            
+                total_duration_seconds = 0
+                total_videos = 0
+            
+                # Calculate total duration and count of valid videos for the current channel
+                for row in result_check_duration:
+                    duration = row[0]
+                    if duration:
+                        # Parse duration in ISO 8601 format and calculate total duration in seconds
+                        duration_components = duration[2:].split('M')
+                        try:
+                            hours = int(duration_components[0][:-1])
+                        except ValueError:
+                            hours = 0
+                        try:
+                            minutes = int(duration_components[1][:-1]) if len(duration_components) > 1 else 0
+                        except ValueError:
+                            minutes = 0
+                        total_duration_seconds += hours * 3600 + minutes * 60
+                        total_videos += 1
+            
+                # Calculate average duration for the current channel
+                if total_videos > 0:
+                    average_duration_seconds = total_duration_seconds / total_videos
+                else:
+                    average_duration_seconds = 0
+            
+                # Convert average duration to ISO 8601 format
+                average_duration_iso8601 = f"PT{int(average_duration_seconds // 3600)}H{int((average_duration_seconds % 3600) // 60)}M{int(average_duration_seconds % 60)}S"
+            
+                # Append results for the current channel to the list
+                channel_results.append({
+                    "Channel Name": channel_name,
+                    "Total Videos": total_videos,
+                    "Total Duration (Seconds)": total_duration_seconds,
+                    "Average Duration (ISO 8601)": average_duration_iso8601
+                })
+            
+            # Create DataFrame from the list of results
+            df_results = pd.DataFrame(channel_results)
+            
+            # Display DataFrame
+            st.dataframe(df_results)
+
+            
 
 
 
 
 
+
+           
 
 
 
