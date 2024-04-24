@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Youtube Analytics",
-    page_icon="D:\\Projects\\yt_data_analysis\\images\\ytlogo.png"
+    page_icon="images/ytlogo.png"
 )
 
 st.write("""
@@ -10,4 +10,4 @@ st.write("""
         This application allows you to access and analyze data from multiple YouTube channels.
         Please enter a YouTube channel ID in the sidebar to get started!
     """)
-st.image("D:\\Projects\\yt_data_analysis\\images\\analytics.gif", use_column_width=True, caption="Data Analytics in Action")
+st.image("images/analytics.gif", use_column_width=True, caption="Data Analytics in Action")
