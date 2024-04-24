@@ -131,13 +131,14 @@ def save_channel_details_to_database(channel_data, video_data):
             database=os.getenv("DATABASE"),
             auth_plugin='mysql_native_password'
         )
+       
         
         cursor = connection.cursor()
 
         # Check if the channel already exists in the database
         cursor.execute("SELECT * FROM channel WHERE channel_id = %s", (channel_data["Channel ID"],))
         existing_channel = cursor.fetchone()
-
+        
         # If the channel exists, update the record; otherwise, insert a new record
         if existing_channel:
             update_channel_query = """
@@ -170,7 +171,7 @@ def save_channel_details_to_database(channel_data, video_data):
                 channel_data["Channel Status"]
             )
             cursor.execute(insert_channel_query, channel_values)
-
+        
         # Consume any unread result set
         for result in cursor.stored_results():
             result.fetchall()
@@ -230,6 +231,8 @@ def save_channel_details_to_database(channel_data, video_data):
 
         connection.commit()
         st.success("Data saved successfully.")
+
+        
 
 
 # Function to display welcome message
