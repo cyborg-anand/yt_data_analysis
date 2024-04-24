@@ -71,10 +71,6 @@ def main():
                 # Display the DataFrame
                 st.dataframe(df_1)
 
-
-
-
-
             # Query 2: Channels with the most number of videos and their total counts
             st.header("2. Channels with the most number of videos and their total counts")
             with st.expander("View Results"):
@@ -300,9 +296,6 @@ def main():
                 df_10.index.name = "S.no"
                 # Display DataFrame
                 st.dataframe(df_10)
-
-            
-
 
 
 if __name__ == "__main__":
