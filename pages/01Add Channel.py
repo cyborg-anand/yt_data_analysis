@@ -10,7 +10,7 @@ import os
 # Set page configuration and enable dark theme for Altair plots
 st.set_page_config(
     page_title="YouTube Dashboard",
-    page_icon="D:\\Projects\\yt_data_analysis\\images\\ytlogo.png",
+    page_icon="images/ytlogo.png",
     layout="wide",
     initial_sidebar_state="auto"
 )
