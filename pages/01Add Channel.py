@@ -1,6 +1,5 @@
 import streamlit as st
 import requests
-import altair as alt
 import pandas as pd
 import mysql.connector
 from datetime import datetime
@@ -14,7 +13,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="auto"
 )
-alt.themes.enable("dark")
+
 
 
 load_dotenv()
